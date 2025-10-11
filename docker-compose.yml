@@ -6,7 +6,7 @@ services:
     networks:
       - my-networks
     environment:
-      POSTGRES_DB: 'sigmaIf'
+      POSTGRES_DB: 'sigma'
       POSTGRES_USER: 'user_api'
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
@@ -19,7 +19,7 @@ services:
     networks:
       - my-networks
     environment:
-      SPRING_DATASOURCE_URL: 'jdbc:postgresql://db:5432/sigmaIf'
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://db:5432/sigma'
       SPRING_DATASOURCE_USERNAME: 'user_api'
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       ADDRESS_REDIS: 'redis://redis:6379'
@@ -33,7 +33,7 @@ services:
     image: redis:7
     container_name: 'REDIS'
     depends_on:
-      - mysql
+      - pg
     ports:
       - "6379:6379"
     networks:
@@ -54,3 +54,6 @@ services:
 networks:
   my-networks:
     driver: bridge
+
+volumes:
+  rabbitmq_data:

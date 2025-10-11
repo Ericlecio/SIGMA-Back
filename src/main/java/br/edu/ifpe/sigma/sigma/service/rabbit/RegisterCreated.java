@@ -6,7 +6,9 @@ import br.edu.ifpe.sigma.sigma.entity.Role;
 import br.edu.ifpe.sigma.sigma.mapper.UserMapper;
 import br.edu.ifpe.sigma.sigma.repository.UserRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RegisterCreated {
 
     private final UserRepository userRepository;

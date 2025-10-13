@@ -1,13 +1,16 @@
 package br.edu.ifpe.sigma.sigma.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,7 +29,7 @@ public class User {
 
     private Boolean isActive;
 
-    private String type;
+    private String password;
 
     private String phone;
 

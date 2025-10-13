@@ -19,7 +19,7 @@ services:
     networks:
       - my-networks
     environment:
-      SPRING_DATASOURCE_URL: 'jdbc:postgresql://pb:5432/sigma'
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://pg:5432/sigma'
       SPRING_DATASOURCE_USERNAME: 'user_api'
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       SPRING_RABBITMQ_HOST: 'rabbit'

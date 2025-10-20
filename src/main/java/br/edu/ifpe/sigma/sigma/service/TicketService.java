@@ -5,12 +5,15 @@ import br.edu.ifpe.sigma.sigma.entity.Status;
 import br.edu.ifpe.sigma.sigma.entity.Ticket;
 import br.edu.ifpe.sigma.sigma.dto.TicketRequest;
 import br.edu.ifpe.sigma.sigma.dto.TicketResponse;
+import br.edu.ifpe.sigma.sigma.dto.ReportDTO;
+import br.edu.ifpe.sigma.sigma.dto.TicketDTO;
 import br.edu.ifpe.sigma.sigma.entity.User;
 import br.edu.ifpe.sigma.sigma.repository.TicketRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,9 +26,14 @@ public class TicketService {
     private final EnvironmentService environmentService;
 
     public TicketResponse create(final TicketRequest request) {
-
         final Environment environment = environmentService.findById(request.getEnvironment());
         final User createdBy = userService.findById(request.getCreatedBy());
+    public ReportDTO getReport(final LocalDate startDate,
+                               LocalDate endDate) {
+        final LocalDate currentDate = java.time.LocalDate.now();
+        if (endDate.isAfter(currentDate)) {
+            endDate = currentDate;
+        }
 
         Ticket ticket = Ticket.builder()
                 .description(request.getDescription())
@@ -44,6 +52,10 @@ public class TicketService {
     public List<TicketResponse> findAll() {
         return ticketRepository.findAll().stream()
                 .map(TicketResponse::fromEntity)
+    public List<TicketDTO> getTickets(final String username) {
+        final User user = userService.findByUsername(username);
+        final List<TicketDTO> result = ticketRepository.findByCreatedAt(user).stream()
+                .map(TicketDTO::from)
                 .toList();
     }
 
@@ -51,6 +63,10 @@ public class TicketService {
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ticket not found"));
         return TicketResponse.fromEntity(ticket);
+        if (result.isEmpty()) {
+            throw new RuntimeException("No tickets found for the user.");
+        }
+        return result;
     }
 
     public TicketResponse update(UUID id, TicketRequest request) {

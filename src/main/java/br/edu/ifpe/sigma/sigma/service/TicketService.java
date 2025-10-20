@@ -1,8 +1,11 @@
 package br.edu.ifpe.sigma.sigma.service;
 
+import br.edu.ifpe.sigma.sigma.entity.Environment;
+import br.edu.ifpe.sigma.sigma.entity.Status;
 import br.edu.ifpe.sigma.sigma.entity.Ticket;
 import br.edu.ifpe.sigma.sigma.dto.TicketRequest;
 import br.edu.ifpe.sigma.sigma.dto.TicketResponse;
+import br.edu.ifpe.sigma.sigma.entity.User;
 import br.edu.ifpe.sigma.sigma.repository.TicketRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -16,15 +19,20 @@ import java.util.UUID;
 public class TicketService {
 
     private final TicketRepository ticketRepository;
+    private final UserService userService;
+    private final EnvironmentService environmentService;
 
-    public TicketResponse create(TicketRequest request) {
+    public TicketResponse create(final TicketRequest request) {
+
+        final Environment environment = environmentService.findById(request.getEnvironment());
+        final User createdBy = userService.findById(request.getCreatedBy());
+
         Ticket ticket = Ticket.builder()
                 .description(request.getDescription())
-                .status(request.getStatus())
+                .status(Status.OPEN)
                 .priority(request.getPriority())
                 .problemType(request.getProblemType())
-                .environment(request.getEnvironment())
-                .assignedTo(request.getAssignedTo())
+                .environment(environment)
                 .createdBy(request.getCreatedBy())
                 .ticketFile(request.getTicketFile())
                 .build();

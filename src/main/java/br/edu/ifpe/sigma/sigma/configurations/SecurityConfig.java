@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/course").hasAnyRole(Role.ADMIN.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/tickets/report").hasAnyRole(Role.ADMIN.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/tickets/my-tickets").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.POST, "/api/v1/tickets").hasAnyRole(Role.ADMIN.toString(), Role.STUDENT.toString(), Role.PROFESSOR.toString(), Role.TECHNICIAN.toString())
                         .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

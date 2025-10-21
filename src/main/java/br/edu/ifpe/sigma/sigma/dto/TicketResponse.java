@@ -17,6 +17,7 @@ public class TicketResponse {
     private Priority priority;
     private ProblemType problemType;
     private Environment environment;
+    private Component component;
     private User assignedTo;
     private User createdBy;
     private List<TicketFile> ticketFile;
@@ -31,6 +32,7 @@ public class TicketResponse {
                 .priority(ticket.getPriority())
                 .problemType(ticket.getProblemType())
                 .environment(ticket.getEnvironment())
+                .component(ticket.getComponent())
                 .assignedTo(ticket.getAssignedTo())
                 .createdBy(ticket.getCreatedBy())
                 .ticketFile(ticket.getTicketFile())

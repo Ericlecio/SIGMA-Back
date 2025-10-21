@@ -12,5 +12,5 @@ import java.util.UUID;
 public interface TicketRepository extends JpaRepository<Ticket, UUID> {
     List<Ticket> findByCreatedAtBetween(LocalDate startDate, LocalDate endDate);
 
-    Collection<Ticket> findByCreatedAt(User user);
+    Collection<Ticket> findByCreatedBy(User user);
 }

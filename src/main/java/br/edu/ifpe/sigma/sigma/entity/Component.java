@@ -20,6 +20,4 @@ public class Component {
     private String mark;
     private String model;
     private String description;
-    @ManyToOne
-    private Environment environment;
 }

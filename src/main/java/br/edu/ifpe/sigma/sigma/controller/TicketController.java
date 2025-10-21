@@ -2,6 +2,9 @@ package br.edu.ifpe.sigma.sigma.controller;
 
 import br.edu.ifpe.sigma.sigma.dto.ReportDTO;
 import br.edu.ifpe.sigma.sigma.dto.TicketDTO;
+import br.edu.ifpe.sigma.sigma.dto.TicketRequest;
+import br.edu.ifpe.sigma.sigma.dto.TicketResponse;
+import br.edu.ifpe.sigma.sigma.entity.User;
 import br.edu.ifpe.sigma.sigma.service.TicketService;
 import io.lettuce.core.dynamic.annotation.Param;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/v1/tickets")
@@ -30,6 +35,8 @@ public class TicketController {
     @GetMapping
     public ResponseEntity<List<TicketResponse>> findAll() {
         return ResponseEntity.ok(ticketService.findAll());
+    }
+
     @GetMapping("/report")
     public ResponseEntity<ReportDTO> getReport(@Param("startDate") String startDate, @Param("endDate") String endDate) {
         var report = ticketService.getReport(
@@ -42,9 +49,13 @@ public class TicketController {
     @GetMapping("/{id}")
     public ResponseEntity<TicketResponse> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(ticketService.findById(id));
+    }
+
     @GetMapping("/my-tickets")
     public ResponseEntity<List<TicketDTO>> getMyTickets(Principal principal) {
-        return ResponseEntity.ok(ticketService.getTickets(principal.getName()));
+        User user = (User) ((org.springframework.security.core.Authentication) principal).getPrincipal();
+        Logger.getLogger(TicketController.class.getName()).log(Level.INFO, "getMyTickets user: {0}", user.getEmail());
+        return ResponseEntity.ok(ticketService.getTickets(user));
     }
 
     @PutMapping("/{id}")

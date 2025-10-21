@@ -12,6 +12,7 @@ public class TicketRequest {
     private Status status;// todo chamado vai começar como OPEN
     private Priority priority;
     private ProblemType problemType;
+    private UUID component;
     private UUID environment;
     private UUID assignedTo; // optional normalmente um chamdo se inicia sem ninguem assinalado
     private UUID createdBy;

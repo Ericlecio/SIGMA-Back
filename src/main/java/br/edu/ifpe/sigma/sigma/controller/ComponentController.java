@@ -2,6 +2,7 @@ package br.edu.ifpe.sigma.sigma.controller;
 
 import br.edu.ifpe.sigma.sigma.dto.component.ComponentRequestDTO;
 import br.edu.ifpe.sigma.sigma.dto.component.ComponentResponseDTO;
+import br.edu.ifpe.sigma.sigma.entity.Component;
 import br.edu.ifpe.sigma.sigma.service.ComponentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class ComponentController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ComponentResponseDTO> getComponentById(@PathVariable UUID id){
+    public ResponseEntity<Component> getComponentById(@PathVariable UUID id){
         return ResponseEntity.ok(componentService.findById(id));
     }
 

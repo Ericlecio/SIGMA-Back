@@ -6,6 +6,7 @@ import br.edu.ifpe.sigma.sigma.entity.Component;
 import br.edu.ifpe.sigma.sigma.entity.Environment;
 import br.edu.ifpe.sigma.sigma.exception.NotFoundException;
 import br.edu.ifpe.sigma.sigma.mapper.EnvironmentMapper;
+import br.edu.ifpe.sigma.sigma.repository.ComponentRepository;
 import br.edu.ifpe.sigma.sigma.repository.EnvironmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,8 @@ public class EnvironmentService {
 
     private final EnvironmentRepository environmentRepository;
     private final EnvironmentMapper environmentMapper;
-    private final ComponentService componentService;
+    private final ComponentRepository componentRepository;
 
-    //helper
-    private Environment findEnvironmentById(UUID id) {
-        return environmentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Ambiente não encontrado"));
-    }
 
     public Environment findById(UUID id) {
         return environmentRepository.findById(id)
@@ -45,30 +41,30 @@ public class EnvironmentService {
     }
 
     public EnvironmentResponseDTO update(UUID id, EnvironmentRequestDTO dto){
-        Environment existingEnvironment = findEnvironmentById(id);
+        Environment existingEnvironment = findById(id);
         environmentMapper.updateEnvironmentFromDTO(dto, existingEnvironment);
         Environment updatedEnvironment = environmentRepository.save(existingEnvironment);
         return environmentMapper.toEnvironmentResponseDTO(updatedEnvironment);
     }
 
     public void delete(UUID id){
-        Environment environment = findEnvironmentById(id);
+        Environment environment = findById(id);
         environmentRepository.delete(environment);
     }
 
     //nao sei se vai funcionar os services abaixo
 
     public EnvironmentResponseDTO addComponentToEnvironment(UUID environmentId, UUID componentId) {
-        Environment environment = findEnvironmentById(environmentId);
-        Component component = componentService.findComponentById(componentId);
+        Environment environment = findById(environmentId);
+        Component component = componentRepository.findById(componentId).orElseThrow(() -> new NotFoundException("Component not found"));
         environment.getComponents().add(component);
         Environment updatedEnvironment = environmentRepository.save(environment);
         return environmentMapper.toEnvironmentResponseDTO(updatedEnvironment);
     }
 
     public EnvironmentResponseDTO removeComponentFromEnvironment(UUID environmentId, UUID componentId) {
-        Environment environment = findEnvironmentById(environmentId);
-        Component component = componentService.findComponentById(componentId);
+        Environment environment = findById(environmentId);
+        Component component = componentRepository.findById(componentId).orElseThrow(() -> new NotFoundException("Component not found"));
         //nao deleta o componente, so define o environment_id como null
         environment.getComponents().remove(component);
 

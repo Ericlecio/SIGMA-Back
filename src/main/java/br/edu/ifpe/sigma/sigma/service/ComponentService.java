@@ -3,6 +3,7 @@ package br.edu.ifpe.sigma.sigma.service;
 import br.edu.ifpe.sigma.sigma.dto.component.ComponentRequestDTO;
 import br.edu.ifpe.sigma.sigma.dto.component.ComponentResponseDTO;
 import br.edu.ifpe.sigma.sigma.entity.Component;
+import br.edu.ifpe.sigma.sigma.entity.Environment;
 import br.edu.ifpe.sigma.sigma.exception.NotFoundException;
 import br.edu.ifpe.sigma.sigma.mapper.ComponentMapper;
 import br.edu.ifpe.sigma.sigma.repository.ComponentRepository;
@@ -19,12 +20,7 @@ public class ComponentService {
 
     private final ComponentRepository componentRepository;
     private final ComponentMapper componentMapper;
-
-    //helper
-    protected Component findComponentById(UUID id) {
-        return componentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Componente não encontrado"));
-    }
+    private final EnvironmentService environmentService;
 
 
     public List<ComponentResponseDTO> findAll(){
@@ -32,20 +28,25 @@ public class ComponentService {
         return componentMapper.toComponentResponseDTOList(components);
     }
 
-    public ComponentResponseDTO findById(UUID id){
-        Component component = componentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Component not found"));
-        return componentMapper.toComponentResponseDTO(component);
+    public Component findById(UUID id) {
+        return componentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Environment not found"));
     }
 
     public ComponentResponseDTO create(ComponentRequestDTO dto){
         Component component = componentMapper.toComponent(dto);
+
+        if (dto.getEnvironmentId() != null) {
+            Environment environment = environmentService.findById(dto.getEnvironmentId());
+            component.setEnvironment(environment);
+        }
+
         Component savedComponent = componentRepository.save(component);
         return componentMapper.toComponentResponseDTO(savedComponent);
     }
 
     public ComponentResponseDTO update(UUID id, ComponentRequestDTO dto) {
-        Component existingComponent = findComponentById(id);
+        Component existingComponent = findById(id);
         componentMapper.updateComponentFromDTO(dto, existingComponent);
         Component updatedComponent = componentRepository.save(existingComponent);
         return componentMapper.toComponentResponseDTO(updatedComponent);

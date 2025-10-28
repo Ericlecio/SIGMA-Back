@@ -12,4 +12,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     User findByCorrelationId(UUID correlationId);
     Boolean existsByCorrelationId(UUID correlationId);
     Optional<User> findByEmail(String email);
+
+    Optional<User> findByName(String username);
 }

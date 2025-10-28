@@ -20,7 +20,7 @@ public class Environment {
     private String name;
     private String block;
     private String room;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "component_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "environment_id")
     private List<Component> components;
 }

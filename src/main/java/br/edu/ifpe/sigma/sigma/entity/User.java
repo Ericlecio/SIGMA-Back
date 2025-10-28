@@ -3,6 +3,7 @@ package br.edu.ifpe.sigma.sigma.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.security.Principal;
 import java.util.UUID;
 
 @Entity

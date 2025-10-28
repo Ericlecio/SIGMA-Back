@@ -25,12 +25,14 @@ public class TokenService {
     public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.require(algorithm)
+            var cx = JWT.require(algorithm)
                     .withIssuer("api-local")
                     .build()
                     .verify(token)
-                    .getClaim("email")
-                    .asString();
+                    .getClaims();
+
+
+            return cx.get("email").asString();
         } catch (JWTVerificationException exception) {
             return  null;
         }

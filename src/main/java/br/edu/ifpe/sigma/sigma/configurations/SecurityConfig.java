@@ -4,6 +4,7 @@ import br.edu.ifpe.sigma.sigma.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,6 +34,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs*/**").permitAll()
                         .requestMatchers("/course").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/tickets/report").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.GET, "/api/v1/tickets/my-tickets").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.POST, "/api/v1/tickets").hasAnyRole(Role.ADMIN.toString(), Role.STUDENT.toString(), Role.PROFESSOR.toString(), Role.TECHNICIAN.toString())
                         .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

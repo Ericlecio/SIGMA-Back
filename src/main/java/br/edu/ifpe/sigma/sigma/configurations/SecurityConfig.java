@@ -51,10 +51,13 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs*/**").permitAll()
-                        .requestMatchers("/course").hasAnyRole(Role.ADMIN.toString())
                         .requestMatchers(HttpMethod.GET, "/api/v1/tickets/report").hasAnyRole(Role.ADMIN.toString())
-                        .requestMatchers(HttpMethod.GET, "/api/v1/tickets/my-tickets").hasAnyRole(Role.ADMIN.toString())
-                        .requestMatchers(HttpMethod.POST, "/api/v1/tickets").hasAnyRole(Role.ADMIN.toString(), Role.STUDENT.toString(), Role.PROFESSOR.toString(), Role.TECHNICIAN.toString())
+                        .requestMatchers(HttpMethod.POST,"/api/v1/environments").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.POST,"/api/v1/components").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/environments").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/components").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.DELETE,"/api/v1/environments").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.DELETE,"/api/v1/components").hasAnyRole(Role.ADMIN.toString())
                         .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

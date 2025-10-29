@@ -20,7 +20,7 @@ public class Environment {
     private UUID id;
     private String name;
     private String block;
-    private String room;
+    private EnvironmentCategory category;
     @OneToMany(mappedBy = "environment", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Component> components = new ArrayList<>();
 }

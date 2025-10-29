@@ -16,8 +16,10 @@ public interface EnvironmentMapper {
     List<EnvironmentResponseDTO> toEnvironmentResponseDTOList(List<Environment> environments);
 
     @Mapping(target = "components", ignore = true)
+    @Mapping(target = "id", ignore = true)
     Environment toEnvironment(EnvironmentRequestDTO dto);
 
     @Mapping(target = "components", ignore = true)
+    @Mapping(target = "id", ignore = true)
     void updateEnvironmentFromDTO(EnvironmentRequestDTO dto, @MappingTarget Environment environment);
 }

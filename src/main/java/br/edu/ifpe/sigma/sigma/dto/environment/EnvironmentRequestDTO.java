@@ -1,6 +1,7 @@
 package br.edu.ifpe.sigma.sigma.dto.environment;
 
 import br.edu.ifpe.sigma.sigma.dto.component.ComponentRequestDTO;
+import br.edu.ifpe.sigma.sigma.entity.EnvironmentCategory;
 import lombok.*;
 import java.util.List;
 
@@ -12,5 +13,5 @@ import java.util.List;
 public class EnvironmentRequestDTO {
     private String name;
     private String block;
-    private String room;
+    private EnvironmentCategory category;
 }

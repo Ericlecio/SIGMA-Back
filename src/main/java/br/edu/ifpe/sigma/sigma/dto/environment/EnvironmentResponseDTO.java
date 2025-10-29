@@ -1,6 +1,7 @@
 package br.edu.ifpe.sigma.sigma.dto.environment;
 
 import br.edu.ifpe.sigma.sigma.dto.component.ComponentResponseDTO;
+import br.edu.ifpe.sigma.sigma.entity.EnvironmentCategory;
 import lombok.*;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +15,6 @@ public class EnvironmentResponseDTO {
     private UUID id;
     private String name;
     private String block;
-    private String room;
+    private EnvironmentCategory category;
     private List<ComponentResponseDTO> components;
 }

@@ -38,7 +38,9 @@ public class ComponentService {
 
         if (dto.getEnvironmentId() != null) {
             Environment environment = environmentService.findById(dto.getEnvironmentId());
-            component.setEnvironment(environment);
+            var components = environment.getComponents();
+            components.add(component);
+            environment.setComponents(components);
         }
 
         Component savedComponent = componentRepository.save(component);

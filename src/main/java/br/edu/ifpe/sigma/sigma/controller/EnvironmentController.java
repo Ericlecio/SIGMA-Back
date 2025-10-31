@@ -1,8 +1,10 @@
 package br.edu.ifpe.sigma.sigma.controller;
 
+import br.edu.ifpe.sigma.sigma.dto.component.ComponentResponseDTO;
 import br.edu.ifpe.sigma.sigma.dto.environment.EnvironmentRequestDTO;
 import br.edu.ifpe.sigma.sigma.dto.environment.EnvironmentResponseDTO;
 import br.edu.ifpe.sigma.sigma.entity.Environment;
+import br.edu.ifpe.sigma.sigma.mapper.EnvironmentMapper;
 import br.edu.ifpe.sigma.sigma.service.EnvironmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.UUID;
 public class EnvironmentController {
 
     private final EnvironmentService environmentService;
+    private final EnvironmentMapper environmentMapper;
 
     @GetMapping
     public ResponseEntity<List<EnvironmentResponseDTO>> getAllEnvironments(){
@@ -26,8 +29,21 @@ public class EnvironmentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Environment> getEnvironmentById(@PathVariable UUID id) {
-        return ResponseEntity.ok(environmentService.findById(id));
+    public ResponseEntity<EnvironmentResponseDTO> getEnvironmentById(@PathVariable UUID id) {
+        Environment environment = environmentService.findById(id);
+        EnvironmentResponseDTO dto = environmentMapper.toEnvironmentResponseDTO(environment);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/{id}/components")
+    public ResponseEntity<List<ComponentResponseDTO>> getComponentsByEnvironmentId(@PathVariable UUID id) {
+        Environment environment = environmentService.findById(id);
+        List<ComponentResponseDTO> components = environmentMapper
+                .toEnvironmentResponseDTO(environment)
+                .getComponents();
+
+        return ResponseEntity.ok(components);
+
     }
 
     @PostMapping

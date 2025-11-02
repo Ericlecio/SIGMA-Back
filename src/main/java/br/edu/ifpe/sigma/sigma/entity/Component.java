@@ -1,5 +1,6 @@
 package br.edu.ifpe.sigma.sigma.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,4 +21,8 @@ public class Component {
     private String mark;
     private String model;
     private String description;
+    @ManyToOne
+    @JoinColumn(name = "environment_id")
+    @JsonBackReference
+    private Environment environment;
 }

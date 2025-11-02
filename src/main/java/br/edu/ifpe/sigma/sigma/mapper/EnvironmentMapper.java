@@ -11,6 +11,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {ComponentMapper.class})
 public interface EnvironmentMapper {
+    @Mapping(target = "components", source = "components")
     EnvironmentResponseDTO toEnvironmentResponseDTO(Environment environment);
 
     List<EnvironmentResponseDTO> toEnvironmentResponseDTOList(List<Environment> environments);

@@ -20,7 +20,4 @@ public class Component {
     private String mark;
     private String model;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "environment_id")
-    private Environment environment;
 }

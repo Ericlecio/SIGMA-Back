@@ -1,5 +1,6 @@
 package br.edu.ifpe.sigma.sigma.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class Environment {
     private String name;
     private String block;
     private EnvironmentCategory category;
-    @OneToMany(mappedBy = "environment", cascade = CascadeType.ALL, orphanRemoval = false)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "environment", cascade = CascadeType.ALL)
     private List<Component> components = new ArrayList<>();
 }

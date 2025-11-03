@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final UserService userService;
     private final EnvironmentService environmentService;
+    private final Logger logger = Logger.getLogger(TicketService.class.getName());
 
     public TicketResponse findById(UUID id) {
         Ticket ticket = ticketRepository.findById(id)
@@ -82,16 +85,19 @@ public class TicketService {
 
 
     public TicketResponse update(UUID id, TicketRequest request) {
+        logger.log(Level.INFO, "Update Ticket Request: {}", request.toString());
         Ticket existing = ticketRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ticket not found"));
 
-        final User assignedTo = userService.findById(request.getAssignedTo());
+        if (request.getAssignedTo() != null) {
+            final User assignedTo = userService.findById(request.getAssignedTo());
+            existing.setAssignedTo(assignedTo);
+        }
 
         existing.setDescription(request.getDescription());
         existing.setStatus(request.getStatus());
         existing.setPriority(request.getPriority());
         existing.setProblemType(request.getProblemType());
-        existing.setAssignedTo(assignedTo);
         existing.setTicketFile(request.getTicketFile());
 
         Ticket updated = ticketRepository.save(existing);

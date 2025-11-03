@@ -22,10 +22,10 @@ public class Ticket {
     private UUID id;
     private String description;
     private Status status;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "environment_id")
     private Environment environment;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "component_id")
     private Component component;
     @Enumerated(EnumType.STRING)
@@ -36,10 +36,10 @@ public class Ticket {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "assigned_id")
     private User assignedTo;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_id")
     private User createdBy;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

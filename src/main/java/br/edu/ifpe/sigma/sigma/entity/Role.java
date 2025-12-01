@@ -5,6 +5,7 @@ public enum Role {
     SECRETARY("Secretário(a)"),
     PROFESSOR("Professor(a)"),
     STUDENT("Estudante"),
+    OTHER("Outro"),
     TECHNICIAN("Técnico(a)");
 
     private final String description;

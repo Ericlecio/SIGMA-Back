@@ -14,7 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private UUID correlationId;
@@ -36,4 +35,14 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            id = UUID.randomUUID();
+        }
+        if (correlationId == null) {
+            correlationId = UUID.randomUUID();
+        }
+    }
 }

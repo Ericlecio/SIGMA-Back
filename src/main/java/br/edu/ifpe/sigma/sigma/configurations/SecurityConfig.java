@@ -50,15 +50,15 @@ public class SecurityConfig {
                         exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint)
                 )
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/swagger-ui/**", "/v3/api-docs*/**").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/api/v1/tickets/report").hasAnyRole(Role.ADMIN.toString())
-//                        .requestMatchers(HttpMethod.POST,"/api/v1/environments").hasAnyRole(Role.ADMIN.toString())
-//                        .requestMatchers(HttpMethod.POST,"/api/v1/components").hasAnyRole(Role.ADMIN.toString())
-//                        .requestMatchers(HttpMethod.PUT,"/api/v1/environments").hasAnyRole(Role.ADMIN.toString())
-//                        .requestMatchers(HttpMethod.PUT,"/api/v1/components").hasAnyRole(Role.ADMIN.toString())
-//                        .requestMatchers(HttpMethod.DELETE,"/api/v1/environments").hasAnyRole(Role.ADMIN.toString())
-//                        .requestMatchers(HttpMethod.DELETE,"/api/v1/components").hasAnyRole(Role.ADMIN.toString())
-                        .anyRequest().permitAll() // TODO: alterar para authenticated() em producao
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs*/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/tickets/report").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.POST,"/api/v1/environments").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.POST,"/api/v1/components").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/environments").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.PUT,"/api/v1/components").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.DELETE,"/api/v1/environments").hasAnyRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.DELETE,"/api/v1/components").hasAnyRole(Role.ADMIN.toString())
+                        .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

@@ -20,6 +20,7 @@ public class TicketDTO {
     private String description;
     private Status status;
     private Environment environment;
+    private Component component;
     private Priority priority;
     private ProblemType problemType;
     private LocalDateTime createdAt;
@@ -40,6 +41,7 @@ public class TicketDTO {
                 .updatedAt(ticket.getUpdatedAt())
                 .assignedTo(ticket.getAssignedTo())
                 .createdBy(ticket.getCreatedBy())
+                .component(ticket.getComponent())
                 .ticketFile(ticket.getTicketFile())
                 .build();
     }
